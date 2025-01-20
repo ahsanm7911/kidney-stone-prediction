@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kidney Stone Prediction System</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/recordstyle.css" />
+  </head>
+
+  <body>
+    <div class="sidebar" id="sidebar">
+      <a href="#" id="menuToggle"><i class="fas fa-bars"></i></a>
+      <a href="dashboard.html"
+        ><i class="fas fa-home"></i><span class="text">Home Page</span></a
+      >
+      <a href="initiatescan.html"
+        ><i class="fas fa-camera"></i><span class="text">Scan Now</span></a
+      >
+      <a href="record.html"
+        ><i class="fas fa-user"></i><span class="text"> Record</span></a
+      >
+    </div>
+
+    <header id="header">
+      <h2 class="title">Kidney Stone Prediction System</h2>
+      <a href="login.html"><button class="logout">Logout</button></a>
+    </header>
+
+    <div class="container" id="container">
+      <a href="record.html" style="text-decoration: none"
+        ><h2 style="text-align: center; color: #9c27b0; margin-bottom: 20px">
+          Record
+        </h2></a
+      >
+
+      <div class="input-group" style="margin-bottom: 20px">
+        <button class="action-btn" id="findRecordBtn">Find Record</button>
+        <button class="action-btn" id="appointmentBtn">
+          Book an Appointment
+        </button>
+        <button class="action-btn" id="viewappointmentBtn">
+          View Appointments
+        </button>
+      </div>
+
+      <!------Search by ID form------->
+      <div class="search-group" id="searchGroup" style="display: none">
+        <label for="searchById">Search by ID:</label>
+        <input type="number" id="searchById" placeholder="Enter ID" />
+        <button class="action-btn" id="searchSubmitBtn">Search</button>
+      </div>
+
+      <table class="record-table" id="recordTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Age</th>
+            <th>City</th>
+            <th>Province</th>
+            <th>Kidney Stone</th>
+            <th>Date/Time</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Patient records will be inserted here -->
+        </tbody>
+      </table>
+
+      <div id="updateForm" style="display: none; margin-top: 20px">
+        <h3>Update Record</h3>
+        <div class="input-group">
+          <label for="updateFullName">Full Name:</label>
+          <input type="text" id="updateFullName" />
+
+          <label for="updateEmail">Email:</label>
+          <input type="email" id="updateEmail" required readonly />
+
+          <label for="updateAge">Age:</label>
+          <input type="number" id="updateAge" />
+
+          <label for="updateCity">City:</label>
+          <input type="text" id="updateCity" />
+
+          <label for="updateProvince">Province:</label>
+          <input type="text" id="updateProvince" />
+
+          <label for="updateKidneyStone">Kidney Stone:</label>
+          <input type="text" id="updateKidneyStone" readonly />
+
+          <label for="updateDateTime">Date/Time:</label>
+          <input type="text" id="updateDateTime" required readonly />
+
+          <button class="update-btn" id="saveUpdateBtn">Save Update</button>
+        </div>
+      </div>
+
+      <!-- Feedback Button -->
+      <button class="feedback-btn" id="feedbackBtn">Feedback</button>
+
+      <!-- Feedback Modal -->
+      <div id="feedbackModal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="closeFeedbackModal">&times;</span>
+          <h2 style="text-align: center; color: #9c27b0">Feedback</h2>
+          <textarea
+            id="feedbackInput"
+            rows="4"
+            placeholder="Enter your feedback here..."
+          ></textarea>
+          <button id="submitFeedbackBtn">Submit Feedback</button>
+          <div
+            id="feedbackMessage"
+            style="margin-top: 10px; color: green"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let currentRecordId = null; // Variable to store the ID of the record to be updated
+
+      // Populate the table with patient data from
+      window.onload = function () {
+        showRecords();
+      };
+
+      function showRecords() {
+        const records =
+          JSON.parse(localStorage.getItem("patientRecords")) || [];
+        const recordTableBody = document.querySelector("#recordTable tbody");
+        recordTableBody.innerHTML = ""; // Clear existing records
+
+        const loggedInEmail = localStorage.getItem("loggedInEmail");
+
+        records.forEach((record) => {
+          if (record.email === loggedInEmail) {
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>${record.id}</td>
+                <td>${record.fullName}</td>
+                <td>${record.email}</td>
+                <td>${record.age}</td>
+                <td>${record.cityName}</td>
+                <td>${record.province}</td>
+                <td>${record.kidneystone}</td>
+                <td>${record.dateTime}</td>
+                <td>
+                    <button class="report-btn" onclick="reportRecord(${record.id})">Report</button>
+                    <button class="update-btn" onclick="editRecord(${record.id})">Update</button>
+                    <button class="delete-btn" onclick="deleteRecord(${record.id})">Delete</button>
+                </td>
+            `;
+            recordTableBody.appendChild(newRow);
+          }
+        });
+      }
+
+      document.getElementById("findRecordBtn").onclick = function () {
+        const searchGroup = document.getElementById("searchGroup");
+        searchGroup.style.display =
+          searchGroup.style.display === "none" ? "block" : "none";
+      };
+
+      document.getElementById("searchSubmitBtn").onclick = function () {
+        const searchId = document.getElementById("searchById").value.trim(); // Get value from the correct input
+        const records =
+          JSON.parse(localStorage.getItem("patientRecords")) || [];
+        const recordTableBody = document.querySelector("#recordTable tbody");
+        recordTableBody.innerHTML = ""; // Clear existing records
+
+        // Find records by ID only
+        const foundRecords = records.filter((record) => record.id == searchId);
+
+        if (foundRecords.length === 0) {
+          alert("No records found.");
+        } else {
+          foundRecords.forEach((record) => {
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>${record.id}</td>
+                <td>${record.fullName}</td>
+                <td>${record.email}</td>
+                <td>${record.age}</td>
+                <td>${record.cityName}</td>
+                <td>${record.province}</td>
+                <td>${record.kidneystone}</td> <!-- New Column Data -->
+                <td>${record.dateTime}</td>
+                <td>
+                  <button class="report-btn" onclick="reportRecord(${record.id})">Report</button>
+                  <button class="update-btn" onclick="editRecord(${record.id})">Update</button>
+                  <button class="delete-btn" onclick="deleteRecord(${record.id})">Delete</button>
+                </td>
+              `;
+            recordTableBody.appendChild(newRow);
+          });
+        }
+      };
+
+      const sidebar = document.getElementById("sidebar");
+      const header = document.getElementById("header");
+      const searchbtn = document.getElementById("searchSubmitBtn");
+      const menuToggle = document.getElementById("menuToggle");
+      const recordTable = document.getElementById("recordTable");
+
+      menuToggle.addEventListener("click", function () {
+        sidebar.classList.toggle("expanded");
+        header.classList.toggle("expanded");
+        searchbtn.classList.toggle("expanded");
+        recordTable.style.paddingLeft = sidebar.classList.contains("expanded")
+          ? "200px"
+          : "60px";
+      });
+
+      function editRecord(id) {
+        const records =
+          JSON.parse(localStorage.getItem("patientRecords")) || [];
+        const recordToEdit = records.find((record) => record.id === id);
+        if (recordToEdit) {
+          document.getElementById("updateFullName").value =
+            recordToEdit.fullName;
+          document.getElementById("updateEmail").value = recordToEdit.email; // Set email as readonly
+          document.getElementById("updateAge").value = recordToEdit.age;
+          document.getElementById("updateCity").value = recordToEdit.cityName;
+          document.getElementById("updateProvince").value =
+            recordToEdit.province;
+          document.getElementById("updateKidneyStone").value =
+            recordToEdit.kidneystone;
+          document.getElementById("updateDateTime").value =
+            recordToEdit.dateTime; // Set date/time as readonly
+
+          currentRecordId = id; // Set current record ID for updating
+          document.getElementById("updateForm").style.display = "block";
+        }
+      }
+
+      document.getElementById("saveUpdateBtn").onclick = function () {
+        const records =
+          JSON.parse(localStorage.getItem("patientRecords")) || [];
+        const updatedRecords = records.map((record) => {
+          if (record.id === currentRecordId) {
+            return {
+              ...record,
+              fullName: document.getElementById("updateFullName").value,
+              age: document.getElementById("updateAge").value,
+              cityName: document.getElementById("updateCity").value,
+              province: document.getElementById("updateProvince").value,
+              kidneyStone: document.getElementById("updateKidneyStone").value,
+              dateTime: document.getElementById("updateDateTime").value,
+            };
+          }
+          return record;
+        });
+
+        localStorage.setItem("patientRecords", JSON.stringify(updatedRecords));
+        document.getElementById("updateForm").style.display = "none";
+        showRecords(); // Refresh the displayed records
+      };
+
+      function deleteRecord(id) {
+        const records =
+          JSON.parse(localStorage.getItem("patientRecords")) || [];
+        const filteredRecords = records.filter((record) => record.id !== id);
+        localStorage.setItem("patientRecords", JSON.stringify(filteredRecords));
+        showRecords(); // Refresh the displayed records
+      }
+
+      function reportRecord(id) {
+        const records =
+          JSON.parse(localStorage.getItem("patientRecords")) || [];
+        const recordToReport = records.find((record) => record.id === id);
+
+        if (recordToReport) {
+          const {
+            id,
+            fullName,
+            email,
+            age,
+            cityName,
+            province,
+            kidneystone,
+            dateTime,
+          } = recordToReport;
+
+          // Create a PDF document using jsPDF
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF();
+
+          // Add content to the PDF
+          doc.setFontSize(18);
+          const pageWidth = doc.internal.pageSize.width;
+          const heading = "Kidney Stone Prediction System";
+          const headingWidth = doc.getTextWidth(heading);
+          doc.text(heading, (pageWidth - headingWidth) / 2, 20);
+
+          // Add some space after the main heading to separate it from the patient info heading
+          doc.text("", 14, 30);
+
+          doc.setFontSize(14);
+          doc.text("Patient Record Report", 14, 40);
+          
+          doc.setFontSize(12);
+          doc.text(`ID: ${id}`, 14, 50);
+          doc.text(`Full Name: ${fullName}`, 14, 60);
+          doc.text(`Email: ${email}`, 14, 70);
+          doc.text(`Age: ${age}`, 14, 80);
+          doc.text(`City: ${cityName}`, 14, 90);
+          doc.text(`Province: ${province}`, 14, 100);
+          doc.text(`Kidney Stone: ${kidneystone}`, 14, 110);
+          doc.text(`Date/Time: ${dateTime}`, 14, 120);
+
+          // Add a space after patient info
+          doc.text("", 14, 130);
+
+          doc.setFontSize(14);
+          doc.text("*RISK ASSESSMENT*", 14, 150);
+          doc.setFontSize(12);
+          doc.text(
+            "According to our calculations, your current levels of calcium and pH in your urine suggest a moderate/high risk of developing a bladder stone within the next [X] months/years.",
+            14,
+            160,
+            { maxWidth: pageWidth - 28 }
+          );
+
+          // Adding Recommendations Section
+          doc.setFontSize(14);
+          doc.text("Recommendations", 14, 180);
+          doc.setFontSize(12);
+          doc.text(
+            "1. To mitigate this risk, we recommend that you [list specific lifestyle changes or treatments, e.g., increase fluid intake, reduce calcium supplements, etc.].",
+            14,
+            190,
+            { maxWidth: pageWidth - 28 }
+          );
+          doc.text(
+            "2. Regular follow-up appointments and monitoring of your urine analysis and calcium levels will be essential in preventing the formation of a bladder stone.",
+            14,
+            200,
+            { maxWidth: pageWidth - 28 }
+          );
+
+          // Adding Conclusion Section
+          doc.setFontSize(14);
+          doc.text("Conclusion", 14, 220);
+          doc.setFontSize(12);
+          doc.text(
+            "1. In conclusion, while our results indicate a risk of developing a bladder stone, with proper management and lifestyle changes, we are confident that you can reduce this risk and maintain good urinary health.",
+            14,
+            230,
+            { maxWidth: pageWidth - 28 }
+          );
+
+          doc.text(
+            "2. Please do not hesitate to contact us if you have any questions or concerns regarding your test results or treatment plan.",
+            14,
+            250,
+            { maxWidth: pageWidth - 28 }
+          );
+
+          // Generate PDF as blob
+          const pdfBlob = doc.output("blob");
+
+          // Create an object URL for the blob
+          const pdfUrl = URL.createObjectURL(pdfBlob);
+
+          // Open the PDF in a new tab
+          window.open(pdfUrl, "_blank");
+        }
+      }
+
+      // Feedback Button Functionality
+      const feedbackBtn = document.getElementById("feedbackBtn");
+      const feedbackModal = document.getElementById("feedbackModal");
+      const closeFeedbackModal = document.getElementById("closeFeedbackModal");
+      const submitFeedbackBtn = document.getElementById("submitFeedbackBtn");
+      const feedbackInput = document.getElementById("feedbackInput");
+      const feedbackMessage = document.getElementById("feedbackMessage");
+
+      feedbackBtn.onclick = function () {
+        feedbackModal.style.display = "block";
+      };
+
+      closeFeedbackModal.onclick = function () {
+        feedbackModal.style.display = "none";
+      };
+
+      window.onclick = function (event) {
+        if (event.target === feedbackModal) {
+          feedbackModal.style.display = "none";
+        }
+      };
+
+      submitFeedbackBtn.onclick = function () {
+        const feedback = feedbackInput.value.trim();
+        if (feedback) {
+          feedbackMessage.innerText = "Feedback submitted successfully!";
+          feedbackMessage.style.color = "green";
+          feedbackInput.value = "";
+          sendFeedback(feedback);
+        } else {
+          feedbackMessage.innerText =
+            "Please enter feedback before submitting.";
+          feedbackMessage.style.color = "red";
+        }
+      };
+
+      function sendFeedback(feedback) {
+        emailjs
+          .send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+            message: feedback,
+            to_email:
+              "usmanfarooq317@gmail.com, hamza0072x@gmail.com, umerahmed7865@gmail.com",
+          })
+          .then(
+            function (response) {
+              console.log(
+                "Feedback sent successfully!",
+                response.status,
+                response.text
+              );
+            },
+            function (error) {
+              console.log("Failed to send feedback.", error);
+            }
+          );
+      }
+
+      const loggedInEmail = localStorage.getItem("loggedInEmail");
+
+      // Check if the email exists and hide/show buttons accordingly
+      if (loggedInEmail === "doctor@gmail.com") {
+        document.getElementById("appointmentBtn").style.display = "none"; // Hide "Book an Appointment"
+        document.getElementById("viewappointmentBtn").style.display = "block"; // Show "View Appointments"
+      } else if (loggedInEmail === "patient@gmail.com") {
+        document.getElementById("viewappointmentBtn").style.display = "none"; // Hide "View Appointments"
+        document.getElementById("appointmentBtn").style.display = "block"; // Show "Book an Appointment"
+      } else {
+        // In case of other emails or no email, you can add fallback behavior
+        document.getElementById("appointmentBtn").style.display = "block"; // Default show
+        document.getElementById("viewappointmentBtn").style.display = "block"; // Default show
+      }
+
+      document
+        .getElementById("appointmentBtn")
+        .addEventListener("click", function () {
+          window.location.href = "bookappointment.html"; // Redirect to the bookappointment.html page
+        });
+
+      document
+        .getElementById("viewappointmentBtn")
+        .addEventListener("click", function () {
+          window.location.href = "viewappointment.html"; // Redirect to the viewappointment.html page
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  </body>
+</html>

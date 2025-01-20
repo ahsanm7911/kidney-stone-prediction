@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Interface</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/loginstyle.css" />
+  </head>
+  <body>
+    <a href="dashboard.html" class="btn btn-warning dashboard-btn">Dashboard</a>
+    <h1>Kidney Stone Prediction System</h1>
+    <div class="login-container">
+      <div class="login-box">
+        <div class="avatar">
+          <i class="fas fa-user-circle"></i>
+          <!-- Circular user icon -->
+        </div>
+        <h2>Login</h2>
+        <form id="loginForm">
+          <div class="input-group">
+            <i class="fas fa-user input-icon"></i>
+            <!-- email icon -->
+            <input type="email" id="email" required />
+            <label for="email">Email</label>
+            <div class="invalid-feedback">Please enter a valid email address.</div>
+          </div>
+          <div class="input-group">
+            <i class="fas fa-lock input-icon"></i>
+            <!-- Password icon -->
+            <input type="password" id="password" required />
+            <label for="password">Password</label>
+            <span class="show-password" id="showPassword">
+              <i class="fas fa-eye"></i>
+            </span>
+            <!-- Show password icon -->
+          </div>
+          <div class="forgot-password">
+            <a href="forget-password.html">Forgot your password?</a>
+          </div>
+          <br />
+          <button type="submit" class="login-btn">Login</button>
+          <div class="register-link">
+            <a href="dashboard.html#servicerequest">Register</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent form submission
+          const email = document.getElementById("email");
+          const password = document.getElementById("password");
+
+          // Allowed emails
+          const allowedEmails = ["doctor@gmail.com", "patient@gmail.com"];
+
+          // Check if email is valid and if it matches one of the allowed emails
+          if (!email.checkValidity() || !allowedEmails.includes(email.value)) {
+            alert("Please enter a valid email address.");
+            return;
+          }
+
+          if (email.value && password.value) {
+            alert(`Logged in as: ${email.value}`);
+            localStorage.setItem("loggedInEmail", email.value); // Store the email
+            window.location.href = "initiatescan.html"; // Redirect to initiatescan.html
+          } else {
+            alert("Please enter both email and password.");
+          }
+
+          localStorage.setItem("userEmail", email.value);
+        });
+
+      // Show password toggle functionality
+      const showPasswordToggle = document.getElementById("showPassword");
+      const passwordInput = document.getElementById("password");
+
+      showPasswordToggle.addEventListener("click", function () {
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text"; // Change input type to text
+          showPasswordToggle.innerHTML = '<i class="fas fa-eye-slash"></i>'; // Change icon to eye slash
+        } else {
+          passwordInput.type = "password"; // Change input type back to password
+          showPasswordToggle.innerHTML = '<i class="fas fa-eye"></i>'; // Change icon to eye
+        }
+      });
+    </script>
+  </body>
+</html>

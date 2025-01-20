@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Records</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/viewappointment.css" />
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <a href="#" id="menuToggle"><i class="fas fa-bars"></i></a>
+        <div class="sidebar-content">
+          <a href="dashboard.html"
+            ><i class="fas fa-home"></i><span class="text"> Home Page</span></a
+          >
+          <a href="initiatescan.html"
+            ><i class="fas fa-camera"></i><span class="text"> Scan Now</span></a
+          >
+          <a href="record.html"
+            ><i class="fas fa-user"></i><span class="text">  Record</span></a
+          >
+        </div>
+      </div>
+
+      <header id="header">
+        <h2 class="title">Kidney Stone Prediction System</h2>
+        <a href="login.html"><button class="logout">Logout</button></a>
+      </header>
+  
+
+      
+    <div class="sub-header">
+        <h1>Appointment Records</h1>
+
+    </div>
+    <div class="table-container">
+      <table>
+          <thead>
+              <tr>
+                  <th>S.No</th>
+                  <th>Patient Name</th>
+                  <th>Patient Age</th>
+                  <th>Gender</th>
+                  <th>Email</th>
+                  <th>Mobile No</th>
+                  <th>Doctor Name</th>
+                  <th>City</th>
+                  <th>Hospital</th>
+                  <th>Appointment Date</th>
+                  <th>Start Time</th>
+                  <th>End Time</th>
+                  <th>Symptoms</th>
+                  <th>Diagnosis History</th>
+                  <th>Description</th>
+                  <th>Uploaded Reports</th>
+                  <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>1</td>
+                  <td>Ali Ahmed</td>
+                  <td>30</td>
+                  <td>Male</td>
+                  <td>aliahmed@gmail.com</td>
+                  <td>9999999999</td>
+                  <td>Dr. Adnan Anwar</td>
+                  <td>Karachi</td>
+                  <td>Aga Khan University Hospital</td>
+                  <td>2024-12-07</td>
+                  <td>10:00 AM</td>
+                  <td>11:00 AM</td>
+                  <td>Blood in Urine</td>
+                  <td>Previously Diagnosed with Kidney Stones</td>
+                  <td>I saw reddish or pinkish discoloration in my urine; it looked unusual and concerning.</td>
+                  <td><a href="#">Report1.pdf</a>, <a href="#">Report2.pdf</a></td>
+                  <td><button class="action-btn delete-btn">Delete</button></td>
+              </tr>
+              <tr>
+                  <td>2</td>
+                  <td>Bilal Shah</td>
+                  <td>27</td>
+                  <td>Male</td>
+                  <td>bilalshah@gmail.com</td>
+                  <td>8888888888</td>
+                  <td>Dr. Sajjad Ahmed</td>
+                  <td>Islamabad</td>
+                  <td>Shifa International Hospital</td>
+                  <td>2024-12-08</td>
+                  <td>12:00 PM</td>
+                  <td>01:00 PM</td>
+                  <td>Don't Know</td>
+                  <td>No Relevant Medical History</td>
+                  <td></td>
+                  <td><a href="#">Report1.pdf</a></td>
+                  <td><button class="action-btn delete-btn">Delete</button></td>
+              </tr>
+              <tr>
+                  <td>3</td>
+                  <td>Talha Anwar</td>
+                  <td>35</td>
+                  <td>Male</td>
+                  <td>talhaanwar@gmail.com</td>
+                  <td>7777777777</td>
+                  <td>Dr. Muhammad Farooq Afzal</td>
+                  <td>Faisalabad</td>
+                  <td>Faisal Hospital</td>
+                  <td>2024-12-09</td>
+                  <td>02:00 PM</td>
+                  <td>03:00 PM</td>
+                  <td>Passing small stones or gravel in urine</td>
+                  <td>Family History of Kidney Stones</td>
+                  <td>I noticed tiny stones or gritty particles in my urine, which felt unusual and uncomfortable.</td>
+                  <td><a href="#">Report1.pdf</a>, <a href="#">Report2.pdf</a></td>
+                  <td><button class="action-btn delete-btn">Delete</button></td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+  
+
+
+
+    <script>
+        // Function to expand or collapse sidebar
+      const sidebar = document.getElementById("sidebar");
+      const header = document.getElementById("header");
+      const container = document.getElementById("main-container");
+      const menuToggle = document.getElementById("menuToggle");
+
+      menuToggle.addEventListener("click", function () {
+        sidebar.classList.toggle("expanded");
+        header.classList.toggle("expanded");
+        container.style.paddingLeft = sidebar.classList.contains("expanded")
+          ? "200px"
+          : "60px";
+      });
+    </script>
+</body>
+</html>

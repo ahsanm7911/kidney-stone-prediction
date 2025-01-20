@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kidney Stone Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome for Icons -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/initiatescan.css" />
+  </head>
+
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">
+        <img src="assets/img/logo.png" alt="Logo" class="logo" /> Kidney Stone
+        Prediction System (KSPS)
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="#" onclick="goToDashboard()"
+              >Home</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="record.html">Records</a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="mailto:usmanfarooq317@gmail.com,hamza0072x@gmail.com,umerahmed7865@gmail.com"
+              >Contact Us</a
+            >
+          </li>
+          <!-- Logout Button -->
+          <li class="nav-item">
+            <a
+              class="nav-link btn btn-danger text-white ms-2"
+              href="#"
+              onclick="logout()"
+              >Logout</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Header Section with Wave Background -->
+    <header class="header-section text-center">
+      <h1>Worried about your Kidney Stone Disease?</h1>
+      <p>
+        Perform self-checks for kidney stones by simply uploading a picture.
+      </p>
+    </header>
+
+    <!-- Main Content Section -->
+
+    <div class="container text-center">
+      <div class="row">
+        <!-- UltraSound Report Section -->
+        <div class="col-md-12 upload-section">
+          <h2><b>UltraSound Report</b></h2>
+          <div class="upload-box">
+            <i class="fas fa-cloud-upload-alt fa-5x mb-3"></i>
+            <p id="fileStatus">No File Chosen, Yet!</p>
+            <input
+              type="file"
+              id="fileInput"
+              multiple
+              style="display: none"
+              onchange="updateFileStatus()"
+            />
+            <button
+              class="btn btn-primary"
+              onclick="document.getElementById('fileInput').click();"
+            >
+              CHOOSE A FILE
+            </button>
+            <button class="btn btn-success mt-3" onclick="scanFile()">
+              SCAN
+            </button>
+            <div
+              class="alert alert-danger mt-3"
+              id="errorAlert"
+              style="display: none"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="text-center mt-5">
+      <p>&copy; 2024 Kidney Stone Prediction Dashboard</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function goToDashboard() {
+        // Push the new URL to history
+        window.location.href = "dashboard.html";
+
+        // Prevent the user from going back to the previous page
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+          history.pushState(null, null, location.href);
+        };
+      }
+
+      // Logout function to take user to login.html
+      function logout() {
+        window.location.href = "login.html";
+      }
+
+      // This function will be called when the page loads
+      window.onload = function () {
+        resetFileInput();
+      };
+
+      function resetFileInput() {
+        // Reset the file input and file status when the page is loaded
+        const fileInput = document.getElementById("fileInput");
+        const fileStatus = document.getElementById("fileStatus");
+        const errorAlert = document.getElementById("errorAlert");
+
+        fileInput.value = ""; // Clear the file input
+        fileStatus.textContent = "No File Chosen, Yet!"; // Reset the file status text
+        errorAlert.style.display = "none"; // Hide any error message
+      }
+
+      function updateFileStatus() {
+        const fileInput = document.getElementById("fileInput");
+        const fileStatus = document.getElementById("fileStatus");
+
+        if (fileInput.files.length) {
+          const fileNames = Array.from(fileInput.files).map(
+            (file) => file.name
+          );
+          fileStatus.innerText = fileNames.join(", "); // Show all file names
+        } else {
+          fileStatus.innerText = "No Files Chosen, Yet!";
+        }
+      }
+
+      function scanFile() {
+        const fileInput = document.getElementById("fileInput");
+        const errorAlert = document.getElementById("errorAlert");
+
+        if (fileInput.files.length === 0) {
+          // Show error message if no file is selected
+          errorAlert.textContent = "Please choose a file before scanning.";
+          errorAlert.style.display = "block";
+        } else {
+          // Hide the error message and proceed with the scan
+          errorAlert.style.display = "none";
+
+          // Redirect to patientinfo.html
+          window.location.href = "patientinfo.html";
+        }
+      }
+    </script>
+  </body>
+</html>
