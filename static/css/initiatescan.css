@@ -1,0 +1,104 @@
+/* General body styling */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+/* Navbar */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 24px;
+}
+.navbar-brand .logo {
+    width: 40px;
+    margin-right: 10px;
+}
+
+/* Header Section */
+.header-section {
+    position: relative;
+    text-align: center;
+    color: white;
+    background-color: #a74dd8;
+    padding: 70px 20px;
+}
+
+.header-section h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.header-section p {
+    font-size: 18px;
+}
+
+
+
+/* Upload Section */
+.upload-section {
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 30px;
+}
+
+.upload-box {
+    border: 2px dashed #a74dd8;
+    padding: 40px;
+    background-color: white;
+    border-radius: 10px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.upload-box i {
+    color: #a74dd8;
+}
+
+.upload-box p {
+    font-size: 16px;
+    color: #a74dd8;
+    margin-top: 10px;
+}
+
+.upload-box button {
+    width: 100%;
+    padding: 10px;
+}
+
+/* Footer */
+footer {
+    padding: 20px;
+    background-color: #f1f1f1;
+    margin-top: 50px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header-section h1 {
+        font-size: 28px;
+    }
+
+    .header-section p {
+        font-size: 16px;
+    }
+
+    .upload-box {
+        max-width: 300px;
+    }
+}
+/* Style for Logout Button */
+.nav-link.btn.btn-danger.text-white {
+    color: black !important; /* Ensure the text color is black */
+    background-color: transparent; /* Set the background to transparent */
+    border: 2px solid black; /* Add a black border to ensure visibility */
+}
+
+.nav-link.btn.btn-danger.text-white:hover {
+    color: white !important; /* Change text color to white on hover */
+    background-color: black; /* Change background to black on hover */
+    border-color: black; /* Keep the border black */
+}

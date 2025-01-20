@@ -1,0 +1,478 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+}
+
+.text{
+    padding-left: 20px;
+}
+
+/* Sidebar styling */
+.sidebar {
+    background-color: #9c27b0;
+    width: 55px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    transition: width 0.3s;
+    overflow: hidden;
+}
+
+.sidebar.expanded {
+    width: 200px;
+}
+
+.sidebar a {
+    color: white;
+    padding: 15px;
+    text-align: left;
+    font-size: 20px;
+    display: block;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.sidebar a:hover {
+    background-color: #7b1fa2;
+}
+
+/* Header styling */
+header {
+    background-color: #9c27b0;
+    padding: 10px 20px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: calc(100% - 55px); /* Adjusted for small sidebar width */
+    left: 55.5px; /* Matches the sidebar width */
+    height: 70px;
+    box-sizing: border-box;
+    transition: left 0.3s, width 0.3s;
+}
+
+.sidebar.expanded + header {
+    left: 200px; /* Adjusted for expanded sidebar */
+    width: calc(100% - 200px); /* Adjusted for expanded sidebar width */
+}
+
+h2.title {
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+}
+
+header .logout {
+    font-size: 14px;
+    cursor: pointer;
+    padding: 10px 20px;
+    background-color: white;
+    color: #000000;
+    border: 2px solid #9c27b0;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+header .logout:hover {
+    background-color: #000000;
+    color: white;
+}
+
+/* Main content styling */
+.container {
+    margin-left: 55px; /* Matches the sidebar width */
+    padding: 20px;
+    margin-top: 70px; /* Space for header */
+    transition: margin-left 0.3s, width 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar.expanded + .container {
+    margin-left: 200px; /* Adjusted margin when sidebar is expanded */
+}
+
+/* Table Styling */
+.record-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.record-table th,
+.record-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.record-table th {
+    background-color: #9c27b0;
+    color: white;
+}
+
+/* Update the table's width to adjust when the sidebar expands */
+.sidebar.expanded + .container .record-table {
+    width: calc(100% - 200px); /* Adjust table width when sidebar is expanded */
+}
+
+.button-group {
+    text-align: center;
+}
+
+.action-btn {
+    background-color: #9c27b0;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.action-btn:hover {
+    background-color: #7b1fa2;
+}
+
+/* Update Form Styling */
+#updateForm {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    justify-content: flex-start;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.input-group .action-btn {
+    background-color: #9c27b0; /* Button color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    flex: none;
+  }
+  
+  .input-group .action-btn:hover {
+    background-color: #7b1fa2; /* Hover effect */
+  }
+
+
+
+/* Search by ID Field Styling */
+#searchById {
+    width: 200px; /* Set the width you want for the search input */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px; /* Space below the input */
+}
+
+/* Button styling for Update and Delete */
+
+.update-btn,
+.delete-btn {
+    background-color: #4caf50; /* Green */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.update-btn:hover {
+    background-color: #248529;
+}
+
+.delete-btn {
+    background-color: #f44336; /* Red */
+}
+
+.delete-btn:hover {
+    background-color: #f40400;
+}
+
+.report-btn {
+    background-color: #ffeb3b; /* Yellow */
+    color: black;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.report-btn:hover {
+    background-color: #f6c901;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+/* Styles for ` button */
+.feedback-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #9c27b0;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.feedback-btn:hover {
+    background-color: #ab47bc;
+    transform: scale(1.05);
+}
+
+.feedback-btn i {
+    margin-right: 5px;
+}
+
+#feedbackPanel {
+    display: none;
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    width: 320px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+#feedbackPanel.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#feedbackPanel h3 {
+    margin: 0 0 15px;
+    color: #9c27b0;
+    font-size: 18px;
+    text-align: center;
+}
+
+#feedbackPanel textarea {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 15px;
+    resize: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+#feedbackPanel button {
+    background-color: #9c27b0;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#feedbackPanel button:hover {
+    background-color: #ab47bc;
+}
+
+#feedbackPanel .close-feedback {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    color: #9c27b0;
+    font-weight: bold;
+}
+
+#feedbackPanel .close-feedback:hover {
+    color: #ab47bc;
+}
+
+/* Feedback Modal Styling */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dimmed background */
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  text-align: center;
+}
+
+.modal-content h2 {
+  color: #9c27b0;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+#feedbackInput {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  resize: none;
+  font-size: 16px;
+}
+
+#submitFeedbackBtn {
+  background-color: #9c27b0;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+#submitFeedbackBtn:hover {
+  background-color: #7b1fa2;
+}
+
+#feedbackMessage {
+  color: green;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* Feedback List Styling */
+#feedbackListContainer {
+  margin-top: 20px;
+  max-height: 150px;
+  overflow-y: auto;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+#feedbackListContainer ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0;
+}
+
+#feedbackListContainer li {
+  background-color: #f3e5f5;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  text-align: left;
+  font-size: 14px;
+}
+
+#feedbackListContainer li:last-child {
+  margin-bottom: 0;
+}
+
+/* Close button for feedback modal */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: #333;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #9c27b0;
+}
+
