@@ -38,4 +38,84 @@
 
   {% include "partials/footer.html" %}
 </body>
+
+<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<div id="preloader"></div>
+
+<!-- Vendor JS Files -->
+<script src={% static "vendor/bootstrap/js/bootstrap.bundle.min.js" %}></script>
+<script src={% static "vendor/aos/aos.js" %}></script>
+<script src={% static "vendor/glightbox/js/glightbox.min.js" %}></script>
+<script src={% static "vendor/purecounter/purecounter_vanilla.js" %}></script>
+<script src={% static "vendor/swiper/swiper-bundle.min.js" %}></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<!-- Template Main JS File -->
+<script src="{% static "js/main.js" %}"></script>
+
+
+
+
+
+
+
+<script>
+function handleSubmit(event) {
+  event.preventDefault(); // Prevent the form from submitting in the traditional way
+
+  // Validate required fields
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  if (name && email && password) {
+    // Display success message if all fields are filled
+    document.getElementById('success-message').style.display = 'block';
+  } else {
+    alert('Please fill out all required fields.');
+  }
+}
+
+function togglefields() {
+  const patientFields = document.getElementById('patientFields');
+  const doctorFields = document.getElementById('doctorFields');
+  const isDoctorSelected = document.getElementById('doctor').checked;
+  const isPatientSelected = document.getElementById('patient').checked;
+
+  // Hide both sections by default
+  patientFields.style.display = 'none';
+  doctorFields.style.display = 'none';
+
+  // Show the relevant section based on the selected role
+  if (isDoctorSelected) {
+    doctorFields.style.display = 'block'; // Show doctor fields
+  } else if (isPatientSelected) {
+    patientFields.style.display = 'block'; // Show patient fields
+  }
+}
+
+// Ensure fields are hidden initially when the page loads
+document.addEventListener("DOMContentLoaded", function() {
+  togglefields(); // Call togglefields to set the initial state based on default selection
+});
+
+
+
+function showTooltip(event, message) {
+    var tooltip = document.getElementById('tooltip');
+    tooltip.innerHTML = message;
+    tooltip.style.display = 'block';
+    tooltip.style.left = (event.pageX + 10) + 'px'; // Adjust for better visibility
+    tooltip.style.top = (event.pageY - 30) + 'px'; // Position above the cursor
+}
+
+function hideTooltip() {
+    var tooltip = document.getElementById('tooltip');
+    tooltip.style.display = 'none';
+}
+</script>
+
 </html>

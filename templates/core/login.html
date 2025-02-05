@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,10 +13,10 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="assets/css/loginstyle.css" />
+    <link rel="stylesheet" href={% static "css/loginstyle.css" %} />
   </head>
   <body>
-    <a href="dashboard.html" class="btn btn-warning dashboard-btn">Dashboard</a>
+    <a href="{% url "home-page" %}" class="btn btn-warning dashboard-btn">Dashboard</a>
     <h1>Kidney Stone Prediction System</h1>
     <div class="login-container">
       <div class="login-box">
@@ -43,12 +44,12 @@
             <!-- Show password icon -->
           </div>
           <div class="forgot-password">
-            <a href="forget-password.html">Forgot your password?</a>
+            <a href="{% url "forgot-password-page" %}">Forgot your password?</a>
           </div>
           <br />
           <button type="submit" class="login-btn">Login</button>
           <div class="register-link">
-            <a href="dashboard.html#servicerequest">Register</a>
+            <a href="{% url "home-page" %}#servicerequest">Register</a>
           </div>
         </form>
       </div>

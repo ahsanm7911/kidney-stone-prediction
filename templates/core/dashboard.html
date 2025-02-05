@@ -1,77 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>Kidney Stone Prediction System</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Amatic+SC:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-
-  <!-- Template Main CSS File -->
-  <link href="assets/css/dashboardstyle.css" rel="stylesheet">
-
-
-</head>
-
-<body>
-
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
-    <div class="container d-flex align-items-center justify-content-between">
-
-      <a href="dashboard.html" class="logo d-flex align-items-center me-auto me-lg-0">
-        
-        <img src="assets/img/logo.png" alt="">
-        <h1><span>Kidney Stone Prediction System</span></h1>
-      </a>
-
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li class="dropdown"><a href="#healthtreatmentinsight"><span>Health & Treatment Insights</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-            <ul>
-              <li><a href="#healthtreatmentinsight">Body Systems & Organs</a></li>
-              <li><a href="#healthtreatmentinsight">Diseases & Conditions</a></li>
-              <li><a href="#healthtreatmentinsight">Treatments</a></li>
-              <li><a href="#healthtreatmentinsight">Procedures</a></li>
-              <li><a href="#healthtreatmentinsight">Drugs & Supplements</a></li>
-              <li><a href="#healthtreatmentinsight">Diagnostics & Testing</a></li>
-            </ul>
-          </li>
-          <li><a href="#educationalresource">Research & Education</a></li>
-          <li><a href="#model">Model & Service</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav><!-- .navbar -->
-
-      <a class="btn-book-a-table" href="#servicerequest">Login</a>
-      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
-      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
-
-    </div>
-  </header><!-- End Header -->
 
   <!-- ======= Hero Section ======= -->
   <section id="home" class="hero d-flex align-items-center section-bg">
@@ -81,7 +7,7 @@
           <h2 data-aos="fade-up">Kidney Stone<br>Prediction System</h2>
           <p data-aos="fade-up" data-aos-delay="100">Prevent The Disease Of Kidney Stone with the help of Prediction System.</p>
           <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
-            <a href="Login.html" class="btn-book-a-table">Login</a>
+            <a href="{% url "login-page" %}" class="btn-book-a-table">Login</a>
           </div>
         </div>
         <div class="col-lg-5 order-1 order-lg-2 text-center text-lg-start">
@@ -481,7 +407,7 @@
                 <div class="error-message"></div>
                 <div id="success-message" class="sent-message" style="display:none;">Your account has been registered. Thank you!</div>
               </div>
-              <a href="Login.html">Already have an Account?</a>
+              <a href="{% url "login-page" %}">Already have an Account?</a>
               <div class="text-center"><button type="submit">Register</button></div>
             </form>
           </div><!-- End Service Form -->
@@ -553,139 +479,6 @@
     </section><!-- End Contact Section -->
 
   </main><!-- End #main -->
-
-  <!-- ======= Footer ======= -->
-  <footer class="bg-dark text-light py-5">
-    <div class="container">
-        <div class="row">
-            <!-- Left Side: Kidney Stone Information -->
-            <div class="col-md-6">
-                <h2 class="fw-bold">Kidney Stone Information</h2>
-                <p>Learn more about kidney stone formation, prevention tips, and treatment options. Stay informed about risk factors and how to maintain kidney health.</p>
-            </div>
-            
-            <!-- Right Side: Contact Us -->
-            <div class="col-md-6">
-                <h3>Contact Us</h3>
-                <ul class="list-unstyled">
-                    <li><strong>Name:</strong> Usman Farooq | <strong>Email:</strong> usmanfarooq317@gmail.com</li>
-                    <li><strong>Name:</strong> Hamza Saleem | <strong>Email:</strong> hamza0072x@gmail.com</li>
-                    <li><strong>Name:</strong> Umer Ahmed | <strong>Email:</strong> umerahmed7865@gmail.com</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-md-12">
-              <div class="d-flex justify-content-center gap-3 mt-3">
-                <a href="#" class="text-light text-decoration-none" 
-                   onmouseover="showTooltip(event, 'Users must provide accurate information and acknowledge that the system is not a substitute for medical advice.')" 
-                   onmouseout="hideTooltip()">
-                   Terms and Conditions
-                </a>
-                
-                <a href="#" class="text-light text-decoration-none" 
-                   onmouseover="showTooltip(event, 'Personal data is collected with user consent and used solely to enhance predictions and recommendations.')" 
-                   onmouseout="hideTooltip()">
-                   Privacy Policy
-                </a>
-              </div>
-              <div id="tooltip" style="position: absolute; background: rgba(0, 0, 0, 0.8); color: #fff; padding: 5px 10px; border-radius: 5px; display: none;"></div>
-            </div>
-        </div>
-     
-        <div class="row mt-4">
-            <div class="col-12">
-                <hr class="border-light">
-            </div>
-            <div class="col-12 text-center">
-                <p class="mb-0">Copyright © 2024 | All Rights Reserved</p>
-            </div>
-        </div>
-    </div>
-</footer>
-
-  <!-- End Footer -->
-
-  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <div id="preloader"></div>
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
- 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-
-
-
-  
-
-
-
-<script>
-  function handleSubmit(event) {
-    event.preventDefault(); // Prevent the form from submitting in the traditional way
-
-    // Validate required fields
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value.trim();
-
-    if (name && email && password) {
-      // Display success message if all fields are filled
-      document.getElementById('success-message').style.display = 'block';
-    } else {
-      alert('Please fill out all required fields.');
-    }
-  }
-
-  function togglefields() {
-    const patientFields = document.getElementById('patientFields');
-    const doctorFields = document.getElementById('doctorFields');
-    const isDoctorSelected = document.getElementById('doctor').checked;
-    const isPatientSelected = document.getElementById('patient').checked;
-
-    // Hide both sections by default
-    patientFields.style.display = 'none';
-    doctorFields.style.display = 'none';
-
-    // Show the relevant section based on the selected role
-    if (isDoctorSelected) {
-      doctorFields.style.display = 'block'; // Show doctor fields
-    } else if (isPatientSelected) {
-      patientFields.style.display = 'block'; // Show patient fields
-    }
-  }
-
-  // Ensure fields are hidden initially when the page loads
-  document.addEventListener("DOMContentLoaded", function() {
-    togglefields(); // Call togglefields to set the initial state based on default selection
-  });
-
-
-
-  function showTooltip(event, message) {
-      var tooltip = document.getElementById('tooltip');
-      tooltip.innerHTML = message;
-      tooltip.style.display = 'block';
-      tooltip.style.left = (event.pageX + 10) + 'px'; // Adjust for better visibility
-      tooltip.style.top = (event.pageY - 30) + 'px'; // Position above the cursor
-  }
-
-  function hideTooltip() {
-      var tooltip = document.getElementById('tooltip');
-      tooltip.style.display = 'none';
-  }
-</script>
-
 
 </body>
 
