@@ -2,9 +2,11 @@
 {% comment %} {% extends "account/base_entrance.html" %} {% endcomment %}
 
 {% load allauth i18n %}
+{% load socialaccount %}
 {% block head_title %}
-    {% trans "Signup" %}
+{% trans "Signup" %}
 {% endblock head_title %}
+{% comment %} 
 {% block content %}
 <div class="auth-container auth-signup">
 
@@ -21,15 +23,15 @@
         {% blocktranslate %}Already have an account? Then please {{ link }}sign in{{ end_link }}.{% endblocktranslate %}
     {% endelement %}
     {% if not SOCIALACCOUNT_ONLY %}
-        {% url 'account_signup' as action_url %}
+    {% url 'account_signup' as action_url %}
         {% element form form=form method="post" action=action_url tags="entrance,signup" %}
             {% slot body %}
                 {% csrf_token %}
                 {% element fields form=form unlabeled=True %}
                 {% endelement %}
                 {{ redirect_field }}
-            {% endslot %}
-            {% slot actions %}
+                {% endslot %}
+                {% slot actions %}
                 {% element button tags="prominent,signup" type="submit" %}
                     {% trans "Sign Up" %}
                 {% endelement %}
@@ -46,5 +48,24 @@
                 {% if SOCIALACCOUNT_ENABLED %}
                 {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
                 {% endif %}
-    </div>
+            </div>
+            {% endblock content %}
+{% endcomment %}
+{% block content %}
+<div class="auth-container auth-signup">
+    <h2>Signup</h2>
+    <br>
+    <a href="/accounts/login/">Already Registered?</a>
+    <form action="" method="post">
+        {% csrf_token %}
+        <!-- Display general errors  -->
+        {{ form.as_p }}
+        <button type="submit">Sign Up</button>
+    </form>
+    <!-- Google login button -->
+     <p>Or sign up with</p>
+     <a href="{% provider_login_url 'google' %}?next=/dashboard/" class="btn btn-primary">
+        <img src="https://developers.google.com/identity/images/g-logo.png" width="32px" alt="Google Logo">
+     </a>
+</div>
 {% endblock content %}

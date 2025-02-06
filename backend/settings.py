@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # Other apps 
     'django.contrib.sites',
     'core',
+    'accounts',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -141,6 +142,7 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SITE_ID = 1
 
+AUTH_USER_MODEL = 'accounts.CustomUser'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend', # Default 
     'allauth.account.auth_backends.AuthenticationBackend', # Allauth
@@ -170,10 +172,13 @@ EMAIL_HOST_PASSWORD = '<your-email-password>'
 
 
 # Optional 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory' # Set to 'none' if verfication not needed.
+ACCOUNT_EMAIL_VERIFICATION = 'none' # Set to 'none' if verfication not needed. Set 'mandatory' if verification required.
 ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_FORMS = {
+    'signup': 'accounts.forms.CustomSignupForm',
+}

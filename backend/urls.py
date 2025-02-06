@@ -23,6 +23,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
-    path('accounts/', include('allauth.urls')),
+    path('accounts/', include('allauth.urls')), # Allauth URLs for authentication 
+    path('dashboard/', include('accounts.urls')), # Custom accounts URLs
     path('accounts/profile/', TemplateView.as_view(template_name='profile.html')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,0 +1,18 @@
+{% extends "account/base.html" %}
+
+{% block content %}
+<div class="auth-container auth-signup">
+    <h2>Select Your Role</h2>
+    <form action="" method="post" style="margin-bottom: 0;">
+        {% csrf_token %}
+        <label for="">
+            <input type="radio" name="user_type" id="" value="doctor" required>Doctor
+        </label>
+        <label for="">
+            <input type="radio" name="user_type" id="" value="patient" required>Patient
+        </label>
+        <br>
+        <button type="submit">Continue</button>
+    </form>
+</div>
+{% endblock content %}
