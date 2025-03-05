@@ -25,5 +25,11 @@ urlpatterns = [
     path('', include('core.urls')),
     path('accounts/', include('allauth.urls')), # Allauth URLs for authentication 
     path('dashboard/', include('accounts.urls')), # Custom accounts URLs
+    path('dashboard/doctor/', include('doctors.urls')),
+    path('dashboard/patient/', include('patients.urls')),
+    path('api/', include('api.urls')),
     path('accounts/profile/', TemplateView.as_view(template_name='profile.html')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL , document_root=settings.MEDIA_ROOT)

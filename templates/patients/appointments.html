@@ -1,0 +1,13 @@
+{% extends 'patients/base.html' %}
+{% block title %}Appointments{% endblock %}
+{% block content %}
+<div class="dashboard-card">
+    <h2>Appointments</h2>
+    {% if appointment %}
+        <p>{% if status == 'upcoming'%}Upcoming Appointment with {% else %} Missed Appointment With {% endif %} <span class="text-success fw-bold"> Dr. {{ appointment.doctor.user.get_full_name }} on {{ date }} at {{ appointment.appointment_time }}</span></p>
+    {% else %}
+        <p>You don't have any appointments yet.</p>
+    {% endif %}
+    
+</div>
+{% endblock %}

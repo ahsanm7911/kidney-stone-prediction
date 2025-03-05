@@ -1,7 +1,6 @@
 {% extends "account/base.html" %}
 
 {% block content %}
-<div class="auth-container auth-signup">
     <h2>Select Your Role</h2>
     <form action="" method="post" style="margin-bottom: 0;">
         {% csrf_token %}
@@ -14,5 +13,4 @@
         <br>
         <button type="submit">Continue</button>
     </form>
-</div>
 {% endblock content %}

@@ -1,8 +1,8 @@
 from django.urls import path 
-from .views import doctor_dashboard, patient_dashboard, choose_role
+from .views import choose_role, check_profile, complete_profile
 
 urlpatterns = [
     path('', choose_role, name='choose_role' ),
-    path('doctor/', doctor_dashboard, name='doctor_dashboard'),
-    path('patient/', patient_dashboard, name='patient_dashboard'),
+    path('check-profile/', check_profile, name='check_profile'),
+    path('complete-profile/', complete_profile, name='complete_profile'),
 ]

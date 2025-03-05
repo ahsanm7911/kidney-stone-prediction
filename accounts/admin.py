@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
+from doctors.models import Doctor
+from patients.models import Patient
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
@@ -25,3 +27,4 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('email',)
 
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register((Doctor, Patient))

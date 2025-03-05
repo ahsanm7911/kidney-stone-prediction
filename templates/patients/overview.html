@@ -1,0 +1,8 @@
+{% extends 'patients/base.html' %}
+{% block title %}Overview{% endblock %}
+{% block content %}
+<div class="dashboard-card">
+    <h1>{{ greeting }}, {{ request.user.first_name}}</h3>
+    <p class="mt-0">We're here to care for you! 😊</p>
+</div>
+{% endblock %}

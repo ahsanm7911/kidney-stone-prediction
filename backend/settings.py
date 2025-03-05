@@ -45,6 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'core',
     'accounts',
+    'doctors',
+    'patients',
+    'appointments',
+    'api',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -135,6 +139,8 @@ STATIC_ROOT = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'assets'
 ]
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR/ 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -179,6 +185,6 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none' # Set to 'none' if verfication not needed. Set 'mandatory' if verification required.
 ACCOUNT_LOGOUT_ON_GET = True
-ACCOUNT_FORMS = {
-    'signup': 'accounts.forms.CustomSignupForm',
-}
+# ACCOUNT_FORMS = {
+#     'signup': 'accounts.forms.CustomSignupForm',
+# }
