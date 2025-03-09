@@ -8,7 +8,7 @@ Pre-requirements:
 4. Activate the virtual environment using command './env/Scripts/activate'
 
 5. After the virtual enviroment has been updated, setup database (first-time only). 
-
+    - pip install -r requirements.txt
     - python manage.py makemigrations
     - python manage.py migrate
 
