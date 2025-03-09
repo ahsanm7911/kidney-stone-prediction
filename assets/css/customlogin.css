@@ -1,5 +1,5 @@
 body{
-    background-color: #f54949;
+    background-color: #2C3E50;
 }
 
 h2, ul{
@@ -56,7 +56,7 @@ form p:nth-of-type(-n+2) {
 }
 
 button {
-    background-color: #cf1313;
+    background-color: #2C3E50;
     color: white;
     font-size: large;
     padding: 8px 12px;
@@ -65,7 +65,7 @@ button {
 
 button:hover{
     cursor: pointer;
-    background-color: #e61919;
+    background-color: #2C3E50;
 }
 
 .google-login-img{

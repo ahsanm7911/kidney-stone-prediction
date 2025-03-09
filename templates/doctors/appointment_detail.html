@@ -1,0 +1,61 @@
+{% extends 'doctors/base.html' %}
+{% block title %}Appointment Detail{% endblock %}
+{% block content %}
+<div class="dashboard-card">
+    <h2>Appointment Detail</h2>
+    <p>Details for your appointment with {{ patient.user.get_full_name }}.</p>
+
+    <!-- Appointment Information -->
+    <h3>Appointment Information</h3>
+    <div class="card mb-4">
+        <div class="card-body">
+            <p><strong>Date:</strong> {{ appointment.appointment_date }}</p>
+            <p><strong>Time:</strong> {{ appointment.appointment_time|time:"h:i a" }}</p>
+            <p><strong>Status:</strong> 
+                <span {% if appointment.status == 'completed' %}class="text-success"{% elif appointment.status == 'cancelled' %}class="text-danger"{% endif %}>
+                    {{ appointment.status|title }}
+                </span>
+            </p>
+            {% if appointment.cancellation_reason %}
+                <p><strong>Cancellation Reason:</strong> {{ appointment.cancellation_reason }}</p>
+            {% endif %}
+            {% if appointment.post_appointment_notes %}
+                <p><strong>Post-Appointment Notes:</strong> {{ appointment.post_appointment_notes }}</p>
+            {% endif %}
+            {% if appointment.report %}
+                <p><strong>Attached Report:</strong> 
+                    <a href="{{ appointment.report.url }}" target="_blank" class="btn btn-sm btn-primary">View Report</a>
+                </p>
+            {% else %}
+                <p><strong>Attached Report:</strong> No report attached.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Patient Information -->
+    <h3>Patient Information</h3>
+    <div class="card mb-4">
+        <div class="card-body">
+            <p><strong>Name:</strong> {{ patient.user.get_full_name }}</p>
+            <p><strong>Age:</strong> {{ patient.get_age }}</p>
+            <p><strong>Gender:</strong> {{ patient.gender }}</p>
+            <p><strong>Height:</strong> {{ patient.height }} cm</p>
+            <p><strong>Weight:</strong> {{ patient.weight }} kg</p>
+            <p><strong>Blood Group:</strong> {{ patient.blood_group }}</p>
+            <p><strong>Medical History:</strong> {{ patient.medical_history|default:"Not provided" }}</p>
+            <p><strong>Current Symptoms:</strong> {{ patient.current_symptoms }}</p>
+            <p><strong>Ongoing Medications:</strong> 
+                {% if patient.ongoing_medications %}
+                    {{ patient.ongoing_medications }}
+                {% else %}
+                    None recorded
+                {% endif %}
+            </p>
+            <p><strong>Emergency Contact:</strong> {{ patient.emergency_contact_name }} - {{ patient.emergency_contact_number }}</p>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <a href="{% url 'appointments_for_doctor' %}" class="btn btn-secondary">Back to Appointments</a>
+</div>
+{% endblock %}

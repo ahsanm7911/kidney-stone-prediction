@@ -1,0 +1,37 @@
+{% extends 'patients/base.html' %}
+{% block title %}Doctor Detail - Dr. {{ doctor.user.get_full_name }}{% endblock %}
+{% block content %}
+<div class="dashboard-card">
+    <h2>Doctor Detail</h2>
+    <p>Information about your doctor, Dr. {{ doctor.user.get_full_name }}.</p>
+
+    <!-- Doctor Information -->
+    <h3>Doctor Information</h3>
+    <div class="card mb-4">
+        <div class="card-body">
+            <p><strong>Name:</strong> Dr. {{ doctor.user.get_full_name }}</p>
+            <p><strong>Age:</strong> {{ doctor.get_age }}</p>
+            <p><strong>Gender:</strong> {{ doctor.gender }}</p>
+            <p><strong>Specialization:</strong> {{ doctor.specialization }}</p>
+            <p><strong>License Number:</strong> {{ doctor.license_number }}</p>
+            <p><strong>Years of Experience:</strong> {{ doctor.experience }}</p>
+            <p><strong>Consultation Fee:</strong> ${{ doctor.consultation_fee }}</p>
+            <p><strong>Available Days:</strong> 
+                {% if doctor.available_days %}
+                    {{ doctor.available_days|join:", " }}
+                {% else %}
+                    Not specified
+                {% endif %}
+            </p>
+            <p><strong>Available Time:</strong> {{ doctor.available_start_time|time:"h:i a" }} - {{ doctor.available_end_time|time:"h:i a" }}</p>
+            <p><strong>Hospital/Clinic Name:</strong> {{ doctor.hospital_name|default:"Not specified" }}</p>
+            <p><strong>Hospital Address:</strong> {{ doctor.hospital_address|default:"Not specified" }}</p>
+            <p><strong>Online Consultation:</strong> {% if doctor.online_consultation %}Yes{% else %}No{% endif %}</p>
+            <p><strong>Bio:</strong> {{ doctor.bio|default:"No bio provided" }}</p>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <a href="{% url 'appointments_for_patient' %}" class="btn btn-secondary">Back to Appointments</a>
+</div>
+{% endblock %}

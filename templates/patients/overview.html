@@ -1,8 +1,220 @@
 {% extends 'patients/base.html' %}
+{% load form_tags %}
 {% block title %}Overview{% endblock %}
 {% block content %}
 <div class="dashboard-card">
-    <h1>{{ greeting }}, {{ request.user.first_name}}</h3>
-    <p class="mt-0">We're here to care for you! 😊</p>
+    <h2>{{ greeting }}, {{ patient.user.get_full_name }}! </h2>
+    <p>Here’s a summary of your health and activities. 😊</p>
+
+    <!-- Health Summary -->
+    <h3>Health Summary</h3>
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Age</h5>
+                    <p class="card-text display-4">{{ age }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">BMI</h5>
+                    <p class="card-text display-4">{{ bmi }}</p>
+                    <p class="card-text">{{ bmi_category }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Weight</h5>
+                    <p class="card-text display-4">{{ patient.weight }} kg</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Height</h5>
+                    <p class="card-text display-4">{{ patient.height }} cm</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Information -->
+    <h3>Personal Information</h3>
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Gender</h5>
+                    <p class="card-text">{{ patient.gender }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Blood Group</h5>
+                    <p class="card-text">{{ patient.blood_group }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Emergency Contact</h5>
+                    <p class="card-text">{{ patient.emergency_contact_name }} - {{ patient.emergency_contact_number }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommendations -->
+    <h3>Recommendations</h3>
+    <div class="alert alert-info mb-4" role="alert">
+        <strong>BMI:</strong> {{ bmi_recommendation }}<br>
+        {% if symptom_recommendation %}
+            <strong>Symptoms:</strong> {{ symptom_recommendation }}
+        {% endif %}
+    </div>
+
+    <!-- Medical Information -->
+    <h3>Medical Information</h3>
+    <div class="row g-4 mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Current Symptoms</h5>
+                    <p class="card-text">{{ patient.current_symptoms|default:"No symptoms recorded." }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Ongoing Medications ({{ medication_count }})</h5>
+                    {% if medications %}
+                        <ul class="list-group list-group-flush">
+                            {% for med in medications %}
+                                {% if med.strip %}
+                                    <li class="list-group-item">{{ med.strip }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                        <p class="card-text mt-2">{{ medication_note }}</p>
+                    {% else %}
+                        <p class="card-text">No ongoing medications recorded.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Appointment Summary -->
+    <h3>Appointment Summary</h3>
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Total Appointments</h5>
+                    <p class="card-text display-4">{{ total_appointments }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Upcoming Appointments</h5>
+                    <p class="card-text display-4">{{ upcoming_appointments }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Last Appointment</h5>
+                    <p class="card-text">
+                        {% if last_appointment %}
+                            {{ last_appointment.status|title }} on {{ last_appointment.appointment_date }} at {{ last_appointment.appointment_time }}
+                        {% else %}
+                            No appointments yet.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Visual Analytics -->
+    <h3>Visual Analytics</h3>
+    <div class="row g-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Appointments by Status</h5>
+                    <canvas id="statusChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Bar Chart: Appointments by Status
+    const statusChart = new Chart(document.getElementById('statusChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Pending', 'Confirmed', 'Completed', 'Cancelled'],
+            datasets: [{
+                label: 'Number of Appointments',
+                data: [
+                    {{ pending_appointments }},
+                    {{ confirmed_appointments }},
+                    {{ completed_appointments }},
+                    {{ cancelled_appointments }}
+                ],
+                backgroundColor: [
+                    'rgba(255, 206, 86, 0.6)',  // Yellow for Pending
+                    'rgba(54, 162, 235, 0.6)',  // Blue for Confirmed
+                    'rgba(75, 192, 192, 0.6)',  // Teal for Completed
+                    'rgba(255, 99, 132, 0.6)'   // Red for Cancelled
+                ],
+                borderColor: [
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 5,  // Multiples of 5
+                        precision: 0  // No decimals
+                    },
+                    suggestedMax: 10,  // Minimum upper bound of 10
+                    title: {
+                        display: true,
+                        text: 'Count'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+</script>
 {% endblock %}

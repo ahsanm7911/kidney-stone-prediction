@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-8 mx-auto">
             <div class="card shadow">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header text-white" style="background-color: #2c3e50;">
                     <h4 class="mb-0">Book an Appointment</h4>
                 </div>
                     <div class="card-body">
@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                             
-                            <button type="submit" class="btn btn-primary w-100">Book Appointment</button>
+                            <button type="submit" class="btn btn-primary w-100" style="background-color: #2c3e50; border-color: #2c3e50;">Book Appointment</button>
                         </form>
                     </div>
                 </div>
@@ -214,8 +214,11 @@
                         withCredentials: true,
                     })
                     console.log("Appointment booked successfully: ", response.data)
+                    alert("Appointment Booked successfully: ", response.data)
                 } catch (error) {
                     console.error("Error booking appointment: ", error.response?.data || error.message)
+                    alert("Error booking appointment: ", error.response?.data || error.messagea)
+
                 }
             }
             

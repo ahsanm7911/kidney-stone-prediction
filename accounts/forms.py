@@ -52,8 +52,8 @@ class PatientForm(forms.ModelForm):
         label="Date of Birth*"
     )
     gender = forms.ChoiceField(choices=GENDER_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}))
-    height = forms.CharField(label="Height in cm")
-    weight = forms.CharField(label="Weight in kg")
+    height = forms.FloatField(label="Height in cm", widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    weight = forms.FloatField(label="Weight in kg", widget=forms.NumberInput(attrs={'class': 'form-control'}))
     blood_group = forms.ChoiceField(choices=BLOOD_GROUP_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}))
 
     class Meta:

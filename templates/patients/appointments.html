@@ -1,13 +1,88 @@
 {% extends 'patients/base.html' %}
+{% load form_tags %}
 {% block title %}Appointments{% endblock %}
 {% block content %}
 <div class="dashboard-card">
     <h2>Appointments</h2>
-    {% if appointment %}
-        <p>{% if status == 'upcoming'%}Upcoming Appointment with {% else %} Missed Appointment With {% endif %} <span class="text-success fw-bold"> Dr. {{ appointment.doctor.user.get_full_name }} on {{ date }} at {{ appointment.appointment_time }}</span></p>
+    <p>View and manage your upcoming appointments here.</p>
+
+    <!-- Filter Form -->
+    <form method="GET" action="{% url 'appointments_for_patient' %}" class="mb-4">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label for="id_status" class="form-label">Filter by Status</label>
+                {{ filter_form.status }}
+            </div>
+            <div class="col-md-3">
+                <label for="id_start_date" class="form-label">Start Date</label>
+                {{ filter_form.start_date }}
+            </div>
+            <div class="col-md-3">
+                <label for="id_end_date" class="form-label">End Date</label>
+                {{ filter_form.end_date }}
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary me-2 w-100">Filter</button>
+                <a href="{% url 'appointments_for_patient' %}" class="btn btn-secondary w-100">Clear</a>
+            </div>
+        </div>
+    </form>
+
+    {% if appointments %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Doctor</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in appointments %}
+                        <tr>
+                            <td><a href="{% url 'appointment_detail_for_patient' appointment.doctor.id %}">Dr. {{ appointment.doctor.user.get_full_name }}</a></td>
+                            <td>{{ appointment.appointment_date }}</td>
+                            <td>{{ appointment.appointment_time|time:"h:i a" }}</td>
+                            <td {% if appointment.status == 'completed' %}class="text-success"{% elif appointment.status == 'cancelled' %}class="text-danger"{% endif %}>
+                                {% if appointment.status == 'cancelled' %}
+                                    Cancelled <a href="#" class="text-muted small" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ appointment.cancellation_reason }}">Reason</a>
+                                {% elif appointment.status == 'completed' %}
+                                    Completed <a href="#" class="text-muted small" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ appointment.post_appointment_notes }}">Notes</a>
+                                {% else %}
+                                    {{ appointment.status|title }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if appointment.status == 'cancelled' %}
+                                    {{ appointment.cancellation_reason|default:"N/A" }}
+                                {% elif appointment.status == 'completed' %}
+                                    {{ appointment.post_appointment_notes|default:"N/A" }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- JavaScript for Bootstrap tooltips -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+            });
+        </script>
     {% else %}
-        <p>You don't have any appointments yet.</p>
+        <p>No appointments match your filters.</p>
     {% endif %}
-    
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock %}

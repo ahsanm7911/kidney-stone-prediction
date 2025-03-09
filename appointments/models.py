@@ -14,6 +14,8 @@ class Appointment(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     reason_for_visit = models.TextField()
     payment_status = models.BooleanField(default=False) # True if paid, False otherwise
+    cancellation_reason = models.TextField(blank=True, null=True)
+    post_appointment_notes = models.TextField(blank=True, null=True, help_text="Notes or tips provided by the doctor after completing the appointment.")
 
     def __str__(self):
         return f"Appointment with Dr. {self.doctor.user.get_full_name()} on {self.appointment_date}"

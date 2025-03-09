@@ -1,4 +1,4 @@
-{% extends 'patients/base.html' %}
+{% extends 'doctors/base.html' %}
 {% load form_tags %}
 {% block title %}Settings{% endblock %}
 {% block content %}
@@ -17,7 +17,7 @@
     {% endif %}
 
     <!-- Profile Update Form -->
-    <form method="POST" action="{% url 'settings_for_patient' %}" class="needs-validation" novalidate>
+    <form method="POST" action="{% url 'settings_for_doctor' %}" class="needs-validation" novalidate>
         {% csrf_token %}
         <input type="hidden" name="update_profile" value="1">
 
@@ -50,76 +50,101 @@
             {% endif %}
         </div>
 
-        <!-- Physical Information -->
-        <h4>Physical Information</h4>
+        <!-- Professional Information -->
+        <h4>Professional Information</h4>
+        <div class="mb-3">
+            <label for="id_specialization" class="form-label">Specialization*</label>
+            {{ profile_form.specialization|add_class:"form-control" }}
+            {% if profile_form.specialization.errors %}
+                <div class="invalid-feedback">{{ profile_form.specialization.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_license_number" class="form-label">License Number*</label>
+            {{ profile_form.license_number|add_class:"form-control" }}
+            {% if profile_form.license_number.errors %}
+                <div class="invalid-feedback">{{ profile_form.license_number.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_experience" class="form-label">Years of Experience*</label>
+            {{ profile_form.experience|add_class:"form-control" }}
+            {% if profile_form.experience.errors %}
+                <div class="invalid-feedback">{{ profile_form.experience.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_consultation_fee" class="form-label">Consultation Fee*</label>
+            {{ profile_form.consultation_fee|add_class:"form-control" }}
+            {% if profile_form.consultation_fee.errors %}
+                <div class="invalid-feedback">{{ profile_form.consultation_fee.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Availability -->
+        <h4>Availability</h4>
+        <div class="mb-3">
+            <label class="form-label">Available Days*</label>
+            {{ profile_form.available_days }}
+            {% if profile_form.available_days.errors %}
+                <div class="invalid-feedback">{{ profile_form.available_days.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label for="id_height" class="form-label">{{ profile_form.height.label }}</label>
-                {{ profile_form.height|add_class:"form-control" }}
-                {% if profile_form.height.errors %}
-                    <div class="invalid-feedback">{{ profile_form.height.errors|join:", " }}</div>
+                <label for="id_available_start_time" class="form-label">{{ profile_form.available_start_time.label }}</label>
+                {{ profile_form.available_start_time }}
+                {% if profile_form.available_start_time.errors %}
+                    <div class="invalid-feedback">{{ profile_form.available_start_time.errors|join:", " }}</div>
                 {% endif %}
             </div>
             <div class="col-md-6 mb-3">
-                <label for="id_weight" class="form-label">{{ profile_form.weight.label }}</label>
-                {{ profile_form.weight|add_class:"form-control" }}
-                {% if profile_form.weight.errors %}
-                    <div class="invalid-feedback">{{ profile_form.weight.errors|join:", " }}</div>
+                <label for="id_available_end_time" class="form-label">{{ profile_form.available_end_time.label }}</label>
+                {{ profile_form.available_end_time }}
+                {% if profile_form.available_end_time.errors %}
+                    <div class="invalid-feedback">{{ profile_form.available_end_time.errors|join:", " }}</div>
                 {% endif %}
             </div>
         </div>
 
+        <!-- Hospital Information -->
+        <h4>Hospital Information</h4>
         <div class="mb-3">
-            <label for="id_blood_group" class="form-label">Blood Group*</label>
-            {{ profile_form.blood_group }}
-            {% if profile_form.blood_group.errors %}
-                <div class="invalid-feedback">{{ profile_form.blood_group.errors|join:", " }}</div>
-            {% endif %}
-        </div>
-
-        <!-- Medical Information -->
-        <h4>Medical Information</h4>
-        <div class="mb-3">
-            <label for="id_medical_history" class="form-label">Medical History</label>
-            {{ profile_form.medical_history|add_class:"form-control" }}
-            {% if profile_form.medical_history.errors %}
-                <div class="invalid-feedback">{{ profile_form.medical_history.errors|join:", " }}</div>
+            <label for="id_hospital_name" class="form-label">Hospital Name</label>
+            {{ profile_form.hospital_name|add_class:"form-control" }}
+            {% if profile_form.hospital_name.errors %}
+                <div class="invalid-feedback">{{ profile_form.hospital_name.errors|join:", " }}</div>
             {% endif %}
         </div>
 
         <div class="mb-3">
-            <label for="id_current_symptoms" class="form-label">Current Symptoms*</label>
-            {{ profile_form.current_symptoms|add_class:"form-control" }}
-            {% if profile_form.current_symptoms.errors %}
-                <div class="invalid-feedback">{{ profile_form.current_symptoms.errors|join:", " }}</div>
+            <label for="id_hospital_address" class="form-label">Hospital Address</label>
+            {{ profile_form.hospital_address|add_class:"form-control" }}
+            {% if profile_form.hospital_address.errors %}
+                <div class="invalid-feedback">{{ profile_form.hospital_address.errors|join:", " }}</div>
             {% endif %}
         </div>
 
         <div class="mb-3">
-            <label for="id_ongoing_medications" class="form-label">Ongoing Medications</label>
-            {{ profile_form.ongoing_medications|add_class:"form-control" }}
-            {% if profile_form.ongoing_medications.errors %}
-                <div class="invalid-feedback">{{ profile_form.ongoing_medications.errors|join:", " }}</div>
+            <label for="id_online_consultation" class="form-label">Online Consultation</label>
+            {{ profile_form.online_consultation|add_class:"form-check-input" }}
+            {% if profile_form.online_consultation.errors %}
+                <div class="invalid-feedback">{{ profile_form.online_consultation.errors|join:", " }}</div>
             {% endif %}
         </div>
 
-        <!-- Emergency Contact -->
-        <h4>Emergency Contact</h4>
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label for="id_emergency_contact_name" class="form-label">Emergency Contact Name*</label>
-                {{ profile_form.emergency_contact_name|add_class:"form-control" }}
-                {% if profile_form.emergency_contact_name.errors %}
-                    <div class="invalid-feedback">{{ profile_form.emergency_contact_name.errors|join:", " }}</div>
-                {% endif %}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="id_emergency_contact_number" class="form-label">Emergency Contact Number*</label>
-                {{ profile_form.emergency_contact_number|add_class:"form-control" }}
-                {% if profile_form.emergency_contact_number.errors %}
-                    <div class="invalid-feedback">{{ profile_form.emergency_contact_number.errors|join:", " }}</div>
+        <!-- Bio -->
+        <h4>Bio</h4>
+        <div class="mb-3">
+            <label for="id_bio" class="form-label">Bio</label>
+            {{ profile_form.bio|add_class:"form-control" }}
+            {% if profile_form.bio.errors %}
+                <div class="invalid-feedback">{{ profile_form.bio.errors|join:", " }}</div>
             {% endif %}
-            </div>
         </div>
 
         <!-- Submit Button for Profile -->
@@ -128,7 +153,7 @@
 
     <!-- Password Form (Conditional) -->
     <h4>{% if has_password %}Change Password{% else %}Set Password{% endif %}</h4>
-    <form method="POST" action="{% url 'settings_for_patient' %}" class="needs-validation" novalidate>
+    <form method="POST" action="{% url 'settings_for_doctor' %}" class="needs-validation" novalidate>
         {% csrf_token %}
         <input type="hidden" name="change_password" value="1">
 

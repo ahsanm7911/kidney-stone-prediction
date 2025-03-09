@@ -18,6 +18,7 @@ STATUS_CHOICES = [
 
 TIME_SLOTS = [(datetime.time(hour, minute).strftime("%H:%M:%S"), datetime.time(hour, minute).strftime("%I:%M %p")) for hour in range(8, 18) for minute in [0, 30]
 ]
+
 DAY_CHOICES = [
     ('monday', 'Monday'),
     ('tuesday', 'Tuesday'),

@@ -1,0 +1,179 @@
+{% extends 'doctors/base.html' %}
+{% load form_tags %}
+{% block title %}Overview{% endblock %}
+{% block content %}
+<div class="dashboard-card">
+    <h2>{{ greeting }} Dr. {{ doctor.user.get_full_name }}!</h2>
+    <p>Here’s a summary of your activities. 😊</p>
+
+    <!-- Date Range Filter Form -->
+    <form method="GET" action="{% url 'doctor_dashboard' %}" class="mb-4">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label for="id_start_date" class="form-label">Start Date</label>
+                {{ filter_form.start_date }}
+            </div>
+            <div class="col-md-4">
+                <label for="id_end_date" class="form-label">End Date</label>
+                {{ filter_form.end_date }}
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary me-2 w-100">Apply</button>
+                <a href="{% url 'doctor_dashboard' %}" class="btn btn-secondary w-100">Reset</a>
+            </div>
+        </div>
+    </form>
+
+    <!-- Analytics Section -->
+    <h3>Analytics ({{ start_date }} to {{ end_date }})</h3>
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Total Patients Managed</h5>
+                    <p class="card-text display-4">{{ total_patients }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Completed Appointments</h5>
+                    <p class="card-text display-4">{{ completed_appointments }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Cancelled Appointments</h5>
+                    <p class="card-text display-4">{{ cancelled_appointments }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Avg. Appointments/Day</h5>
+                    <p class="card-text display-4">{{ avg_appointments_per_day }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <h3>Visual Analytics</h3>
+    <div class="row g-4">
+        <!-- Bar Chart: Appointments by Status -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Appointments by Status</h5>
+                    <canvas id="statusChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <!-- Line Chart: Appointments Over Time -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Appointments Over Time</h5>
+                    <canvas id="timeChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Bar Chart: Appointments by Status
+    const statusChart = new Chart(document.getElementById('statusChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Pending', 'Confirmed', 'Completed', 'Cancelled'],
+            datasets: [{
+                label: 'Number of Appointments',
+                data: [
+                    {{ pending_appointments }},
+                    {{ confirmed_appointments }},
+                    {{ completed_appointments }},
+                    {{ cancelled_appointments }}
+                ],
+                backgroundColor: [
+                    'rgba(255, 206, 86, 0.6)',  // Yellow for Pending
+                    'rgba(54, 162, 235, 0.6)',  // Blue for Confirmed
+                    'rgba(75, 192, 192, 0.6)',  // Teal for Completed
+                    'rgba(255, 99, 132, 0.6)'   // Red for Cancelled
+                ],
+                borderColor: [
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 5,  // Multiples of 5
+                        precision: 0  // No decimals
+                    },
+                    suggestedMax: 10, 
+                    title: {
+                        display: true,
+                        text: 'Count'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    // Line Chart: Appointments Over Time
+    const timeChart = new Chart(document.getElementById('timeChart'), {
+        type: 'line',
+        data: {
+            labels: [{% for date in date_labels %}'{{ date }}',{% endfor %}],
+            datasets: [{
+                label: 'Appointments',
+                data: [{% for count in daily_appointments %}{{ count }},{% endfor %}],
+                fill: false,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 5,  // Multiples of 5
+                        precision: 0  // No decimals
+                    },
+                    suggestedMax: 10,
+                    title: {
+                        display: true,
+                        text: 'Number of Appointments'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
